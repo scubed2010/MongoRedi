@@ -6,6 +6,9 @@
     <Authors>Kyle Barnes</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Wrapper around MongoDB and Redis to easily execute CRUD operation against MongoDB using POCOs while optionally caching collections in Redis.</Description>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
