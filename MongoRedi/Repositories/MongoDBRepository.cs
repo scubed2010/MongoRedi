@@ -20,7 +20,6 @@ namespace MongoRedi.Repositories
         private readonly IMongoCollection<TCollection> _collection;
         private readonly IRedisRepository _redisRepository;
         private readonly bool _cache;
-        //private readonly CacheManager _cacheManager;
 
         private readonly string _mongoDBConnectionString;
         private readonly string _mongoDBDatabase;
@@ -85,6 +84,7 @@ namespace MongoRedi.Repositories
 
             return _collection.Find(_ => true).ToList();
         }
+
         public IEnumerable<TCollection> Search(Expression<Func<TCollection, bool>> predicate)
         {
             if (_cache)
