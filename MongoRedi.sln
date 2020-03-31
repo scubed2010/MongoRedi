@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29905.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoRedi", "MongoRedi\MongoRedi.csproj", "{BBE5CDF7-374B-420F-A464-046629832858}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoRedi.Tests", "MongoRedi.Tests\MongoRedi.Tests.csproj", "{3350626B-281A-4DBA-ACDC-0289814FA932}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BBE5CDF7-374B-420F-A464-046629832858}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBE5CDF7-374B-420F-A464-046629832858}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBE5CDF7-374B-420F-A464-046629832858}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBE5CDF7-374B-420F-A464-046629832858}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3350626B-281A-4DBA-ACDC-0289814FA932}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3350626B-281A-4DBA-ACDC-0289814FA932}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3350626B-281A-4DBA-ACDC-0289814FA932}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3350626B-281A-4DBA-ACDC-0289814FA932}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C783F3BE-1706-432A-BC34-3FF6CA475A30}
+	EndGlobalSection
+EndGlobal
