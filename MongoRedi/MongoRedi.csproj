@@ -1,11 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Company>Seattle Software Solutions, LLP</Company>
     <Authors>Kyle Barnes</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>Wrapper around MongoDB and Redis to easily execute CRUD operation against MongoDB using POCOs while optionally caching collections in Redis.</Description>
+    <Description>Wrapper around MongoDB and Redis to easily execute CRUD operations against MongoDB using POCOs while optionally caching collections in Redis.</Description>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <Version>1.0.3</Version>
