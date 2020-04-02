@@ -21,8 +21,8 @@ namespace MongoRedi.Tests
         {
             var newUser = new User
             {
-                FirstName = "Kyle",
-                LastName = "Barnes",
+                FirstName = "Harry",
+                LastName = "Potter",
                 Age = 36
             };
 
@@ -40,31 +40,31 @@ namespace MongoRedi.Tests
                 new List<User> {
                     new User
                     {
-                        FirstName = "Kyle",
-                        LastName = "Barnes",
-                        Age = 36
+                        FirstName = "Harry",
+                        LastName = "Potter",
+                        Age = 11
                     },  new User
                     {
-                        FirstName = "Ed",
-                        LastName = "Piekarczyk",
-                        Age = 25
+                        FirstName = "Lord",
+                        LastName = "Voldemort",
+                        Age = 55
                     }, new User
                     {
-                        FirstName = "Charlie",
-                        LastName = "Kocher",
-                        Age = 65
+                        FirstName = "Albus",
+                        LastName = "Dumbledore",
+                        Age = 150
                     }
                 };
 
             _userRepository.InsertMany(users);
 
-            var kyle = _userRepository.Search(x => x.FirstName == "Kyle" && x.LastName == "Barnes").FirstOrDefault();
-            var ed = _userRepository.Search(x => x.FirstName == "Ed" && x.LastName == "Piekarczyk").FirstOrDefault();
-            var charlie = _userRepository.Search(x => x.FirstName == "Charlie" && x.LastName == "Kocher").FirstOrDefault();
+            var kyle = _userRepository.Search(x => x.FirstName == "Harry" && x.LastName == "Potter").FirstOrDefault();
+            var ed = _userRepository.Search(x => x.FirstName == "Lord" && x.LastName == "Voldemort").FirstOrDefault();
+            var charlie = _userRepository.Search(x => x.FirstName == "Albus" && x.LastName == "Dumbledore").FirstOrDefault();
 
-            Assert.IsTrue(kyle.Age == 36);
-            Assert.IsTrue(ed.Age == 25);
-            Assert.IsTrue(charlie.Age == 65);
+            Assert.IsTrue(kyle.Age == 11);
+            Assert.IsTrue(ed.Age == 55);
+            Assert.IsTrue(charlie.Age == 150);
         }
 
         [TestMethod]
