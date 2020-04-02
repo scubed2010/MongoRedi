@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoRedi", "MongoRedi\Mong
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoRedi.Tests", "MongoRedi.Tests\MongoRedi.Tests.csproj", "{3350626B-281A-4DBA-ACDC-0289814FA932}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{E9D63D32-AAEB-44F1-BB60-04678897BB5E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Core", "Sample.Core\Sample.Core.csproj", "{1114BF5D-CC19-40E2-99C5-5CADFD467662}"
 EndProject
 Global
@@ -25,10 +23,6 @@ Global
 		{3350626B-281A-4DBA-ACDC-0289814FA932}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3350626B-281A-4DBA-ACDC-0289814FA932}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3350626B-281A-4DBA-ACDC-0289814FA932}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E9D63D32-AAEB-44F1-BB60-04678897BB5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E9D63D32-AAEB-44F1-BB60-04678897BB5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E9D63D32-AAEB-44F1-BB60-04678897BB5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E9D63D32-AAEB-44F1-BB60-04678897BB5E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1114BF5D-CC19-40E2-99C5-5CADFD467662}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1114BF5D-CC19-40E2-99C5-5CADFD467662}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1114BF5D-CC19-40E2-99C5-5CADFD467662}.Release|Any CPU.ActiveCfg = Release|Any CPU

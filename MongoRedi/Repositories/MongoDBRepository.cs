@@ -6,6 +6,7 @@ using MongoRedi.Interfaces;
 using MongoRedi.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -36,13 +37,26 @@ namespace MongoRedi.Repositories
 
             var configuration = builder.Build();
 
-            _mongoDBConnectionString = configuration["MongoRedi:MongoDBConnectionString"];
-            _mongoDBDatabase = configuration["MongoRedi:MongoDBDatabase"];
+            if (configuration.GetChildren().Count() > 0)
+            {
+                _mongoDBConnectionString = configuration["MongoRedi:MongoDBConnectionString"];
+                _mongoDBDatabase = configuration["MongoRedi:MongoDBDatabase"];
 
-            _redisConnectionString = configuration["MongoRedi:RedisConnectionString"];
-            _redisDatabase = configuration["MongoRedi:RedisDatabase"];
+                _redisConnectionString = configuration["MongoRedi:RedisConnectionString"];
+                _redisDatabase = configuration["MongoRedi:RedisDatabase"];
 
-            _enableCache = Convert.ToBoolean(configuration["MongoRedi:Cache"]);
+                _enableCache = Convert.ToBoolean(configuration["MongoRedi:Cache"]);
+            }
+            else
+            {
+                _mongoDBConnectionString = ConfigurationManager.AppSettings["MongoRedi_MongoDBConnectionString"];
+                _mongoDBDatabase = ConfigurationManager.AppSettings["MongoRedi_MongoDBDatabase"];
+
+                _redisConnectionString = ConfigurationManager.AppSettings["MongoRedi_RedisConnectionString"];
+                _redisDatabase = ConfigurationManager.AppSettings["MongoRedi_RedisDatabase"];
+
+                _enableCache = Convert.ToBoolean(ConfigurationManager.AppSettings["MongoRedi_Cache"]);
+            }
             #endregion
 
             _mongoClient = new MongoClient(_mongoDBConnectionString);

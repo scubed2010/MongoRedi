@@ -58,19 +58,19 @@ namespace MongoRedi.Tests
 
             _userRepository.InsertMany(users);
 
-            var kyle = _userRepository.Search(x => x.FirstName == "Harry" && x.LastName == "Potter").FirstOrDefault();
-            var ed = _userRepository.Search(x => x.FirstName == "Lord" && x.LastName == "Voldemort").FirstOrDefault();
-            var charlie = _userRepository.Search(x => x.FirstName == "Albus" && x.LastName == "Dumbledore").FirstOrDefault();
+            var harry = _userRepository.Search(x => x.FirstName == "Harry" && x.LastName == "Potter").FirstOrDefault();
+            var lord = _userRepository.Search(x => x.FirstName == "Lord" && x.LastName == "Voldemort").FirstOrDefault();
+            var albus = _userRepository.Search(x => x.FirstName == "Albus" && x.LastName == "Dumbledore").FirstOrDefault();
 
-            Assert.IsTrue(kyle.Age == 11);
-            Assert.IsTrue(ed.Age == 55);
-            Assert.IsTrue(charlie.Age == 150);
+            Assert.IsTrue(harry.Age == 11);
+            Assert.IsTrue(lord.Age == 55);
+            Assert.IsTrue(albus.Age == 150);
         }
 
         [TestMethod]
         public void Count()
         {
-            var count = _userRepository.Count(x => x.Age == 36);
+            var count = _userRepository.Count(x => x.Age == 11);
 
             Assert.IsTrue(count == 2);
         }
