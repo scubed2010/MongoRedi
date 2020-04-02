@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoRedi.Tests", "MongoRed
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Core", "Sample.Core\Sample.Core.csproj", "{1114BF5D-CC19-40E2-99C5-5CADFD467662}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Framework", "Sample.Framework\Sample.Framework.csproj", "{83288617-0A39-4BE9-AA59-F2D6E8DDFC28}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{1114BF5D-CC19-40E2-99C5-5CADFD467662}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1114BF5D-CC19-40E2-99C5-5CADFD467662}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1114BF5D-CC19-40E2-99C5-5CADFD467662}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83288617-0A39-4BE9-AA59-F2D6E8DDFC28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83288617-0A39-4BE9-AA59-F2D6E8DDFC28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83288617-0A39-4BE9-AA59-F2D6E8DDFC28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83288617-0A39-4BE9-AA59-F2D6E8DDFC28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

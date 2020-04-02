@@ -8,8 +8,9 @@
     <Description>Wrapper around MongoDB and Redis to easily execute CRUD operation against MongoDB using POCOs while optionally caching collections in Redis.</Description>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReleaseNotes>Adding MIT license and support for the .NET Framework</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
