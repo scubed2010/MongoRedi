@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -8,9 +8,13 @@
     <Description>Wrapper around MongoDB and Redis to easily execute CRUD operation against MongoDB using POCOs while optionally caching collections in Redis.</Description>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>Adding MIT license and support for the .NET Framework</PackageReleaseNotes>
+    <PackageReleaseNotes>Updating project URL and Icon</PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/scubed2010/MongoRedi</PackageProjectUrl>
+    <PackageTags>mongodb, redis</PackageTags>
+    <PackageIcon>mongoRedi.png</PackageIcon>
+    <PackageIconUrl />
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,6 +25,13 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="StackExchange.Redis" Version="2.1.28" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\Sample.Core\wwwroot\images\mongoRedi.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
