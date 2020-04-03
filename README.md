@@ -6,7 +6,7 @@ MongoRedi is implemented using .NET Standard, so you can easily integrate it wit
 
 MongoDB is an excellent database for development and performance when accessing data for your application.  However, as you move toward the cloud, it can become expensive to run instances of MongoDB that require lots of memory.  Leveraging the power of Redis can take some of the burden off of MongoDB, which will lead to even better performance and cost savings.
 
-## Implementation
+## Setup
 Install the NuGet package for your application.  If you have a multi-tiered architecture, then you’ll want to make the installation in your data access layer.
 
 https://www.nuget.org/packages/MongoRedi/
@@ -64,7 +64,7 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-Or you can instantiate the instance directly:
+Or you can instantiate the class directly:
 
 ```
 IMongoDBRepository<Student> _studentRepository = new MongoDBRepository<Student>();
@@ -86,3 +86,53 @@ Add the following properties to your web.config file:
   ```
 
 As for dependency injection, you can use a 3rd Party container, or instantiate directly.
+
+## Implementation
+Once you have an instance you can the following APIs:
+
+
+        
+        
+        void Update(ObjectId id, TCollection collection);
+        void Delete(ObjectId id);
+
+
+### GetAll
+Returns all documents in a collection from MongoDB.
+
+* If Redis is enabled, then all documents will be pulled from Redis, otherwise MongoDB will return all documents which will be stored into Redis, then returned
+
+### Search
+Accepts a LINQ expression to pull the desired documents from MongoDB
+
+* If Redis is enabled, then documents are retreived from Redis and filtered, otherwise **GetAll** is called, then filtered by the expression
+
+### Count
+Efficently counts the documents in a collection using a LINQ expression without returning all values
+
+* If Redis is enabled, the same logic as **Search** applies
+
+### GetById
+Returns a single document based on \_id of the document.  Accepts ObjectId or string as an input.
+
+* If Redis is enabled, the document is retrieved from Redis, otherwise **GetAll** is called and the document is returned
+
+### Insert
+A single document is added to the collection
+
+* If Redis is enabled, after the insert the Redis data for the collection is removed
+
+### InsertMany
+Multiple documents are added to the collection
+
+* If Redis is enabled, after the insert the Redis data for the collection is removed
+
+### Update
+Updates a single document
+
+* If Redis is enabled, after the update the Redis data for the collection is removed 
+
+### Delete
+Deletes a single document based on \_id of the document.  Accepts ObjectId or string as an input.
+
+* If Redis is enabled, after the deletion the Redis data for the collection is removed 
