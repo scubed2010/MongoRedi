@@ -90,13 +90,6 @@ As for dependency injection, you can use a 3rd Party container, or instantiate d
 ## Implementation
 Once you have an instance you can the following APIs:
 
-
-        
-        
-        void Update(ObjectId id, TCollection collection);
-        void Delete(ObjectId id);
-
-
 ### GetAll
 Returns all documents in a collection from MongoDB.
 
@@ -136,3 +129,6 @@ Updates a single document
 Deletes a single document based on \_id of the document.  Accepts ObjectId or string as an input.
 
 * If Redis is enabled, after the deletion the Redis data for the collection is removed 
+
+## Summary
+I created this project after looking over the internet for best practices when working with MongoDB and Redis in the .NET Technology stack.  I've used this code to integrate MongoDB Atlas with AWS Elasticache and it works great!  That being said, I'm sure there is a lot of room for improvement.  If you have any suggestions or feature requests, please let me know.
