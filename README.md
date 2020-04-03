@@ -1,5 +1,5 @@
 # MongoRedi
-MongoRedi is wrapper around the MongoDB driver that exposes the key CRUD operations that are needed to interact with an instance of MongDB.  Additionally, collections can be annotated to allow for all data to be retrieved from Redis rather than going all the way to MongoDB.
+MongoRedi is a wrapper around the MongoDB driver that exposes the key CRUD operations that are needed to interact with an instance of MongDB.  Additionally, collections can be annotated to allow for all data to be retrieved from Redis rather than going all the way to MongoDB.
 
 ## Use Cases
 MongoRedi is implemented using .NET Standard, so you can easily integrate it with the .NET Framework or .NET Core.
@@ -52,7 +52,7 @@ public class Student : BaseCollection
 * Cache (OPTIONAL)
   * This attribute determines if this collection will be stored in Redis
 * BaseCollection **(REQUIRED)**
-  * This base class contains the \_id of each document, which is required for MondoDB.
+  * This base class contains the \_id of each document, which is required for MondoDB
 
 In the Sample.Core project you will see how you can inject each collection as a Singleton using the built-in dependency injection functionality:
 
@@ -131,4 +131,4 @@ Deletes a single document based on \_id of the document.  Accepts ObjectId or st
 * If Redis is enabled, after the deletion the Redis data for the collection is removed 
 
 ## Summary
-I created this project after looking over the internet for best practices when working with MongoDB and Redis in the .NET Technology stack.  I've used this code to integrate MongoDB Atlas with AWS Elasticache and it works great!  That being said, I'm sure there is a lot of room for improvement.  If you have any suggestions or feature requests, please let me know.
+I created this project after looking over the internet for best practices when working with MongoDB and Redis in the .NET technology stack.  I've used this code to integrate MongoDB Atlas with AWS Elasticache and it works great!  That being said, I'm sure there is a lot of room for improvement.  If you have any suggestions or feature requests, please let me know.
