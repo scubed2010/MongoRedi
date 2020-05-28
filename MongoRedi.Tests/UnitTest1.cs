@@ -72,7 +72,7 @@ namespace MongoRedi.Tests
         {
             var count = _userRepository.Count(x => x.Age == 11);
 
-            Assert.IsTrue(count == 2);
+            Assert.IsTrue(count == 1);
         }
 
         [TestMethod]
