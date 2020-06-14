@@ -8,9 +8,9 @@
     <Description>Wrapper around MongoDB and Redis to easily execute CRUD operations against MongoDB using POCOs while optionally caching collections / documents in Redis.</Description>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
-    <Version>1.0.6</Version>
+    <Version>1.0.7</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>Added supported for document level caching.  Updating dependencies.</PackageReleaseNotes>
+    <PackageReleaseNotes>Adding back support for Obsolute attribute.</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/scubed2010/MongoRedi</PackageProjectUrl>
     <PackageTags>mongodb, redis, mongo, nosql</PackageTags>
     <PackageIcon>mongoRedi.png</PackageIcon>

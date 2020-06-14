@@ -31,6 +31,8 @@ namespace MongoRedi.Tests
             var insertedUser = _userRepository.GetById(id);
 
             Assert.IsNotNull(insertedUser);
+
+            InsertMany();
         }
 
         [TestMethod]
@@ -69,6 +71,8 @@ namespace MongoRedi.Tests
             _userRepository.GetById(hermione.Id);
             _userRepository.GetById(lord.Id);
             _userRepository.GetById(albus.Id);
+
+            Count();
         }
 
         [TestMethod]
@@ -77,6 +81,8 @@ namespace MongoRedi.Tests
             var count = _userRepository.Count(x => x.Age == 11);
 
             Assert.IsTrue(count == 1);
+
+            Update();
         }
 
         [TestMethod]
@@ -93,6 +99,8 @@ namespace MongoRedi.Tests
             var updatedUser = _userRepository.GetById(user.Id);
 
             Assert.IsTrue(initalAge != updatedUser.Age);
+
+            Delete();
         }
 
         [TestMethod]

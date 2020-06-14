@@ -66,6 +66,10 @@ namespace MongoRedi.Repositories
                 (typeof(TCollection).GetCustomAttributes(typeof(CollectionNameAttribute), true)[0] as CollectionNameAttribute).CollectionName;
             _collection = _mongoDatabase.GetCollection<TCollection>(collectionName);
 
+            // Support for Obsolete Method
+            // To be removed in Version 2.0
+            _cacheCollection = typeof(TCollection).IsDefined(typeof(CacheAttribute), false) && _enableCache;
+            
             _cacheCollection = typeof(TCollection).IsDefined(typeof(CacheCollectionAttribute), false) && _enableCache;
             _cacheDocument = typeof(TCollection).IsDefined(typeof(CacheDocumentAttribute), false) && _enableCache;
 
