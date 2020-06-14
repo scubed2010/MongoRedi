@@ -23,7 +23,7 @@ namespace MongoRedi.Tests
             {
                 FirstName = "Harry",
                 LastName = "Potter",
-                Age = 36
+                Age = 10
             };
 
             var id = _userRepository.Insert(newUser);
@@ -40,8 +40,8 @@ namespace MongoRedi.Tests
                 new List<User> {
                     new User
                     {
-                        FirstName = "Harry",
-                        LastName = "Potter",
+                        FirstName = "Hermione",
+                        LastName = "Granger",
                         Age = 11
                     },  new User
                     {
@@ -58,13 +58,17 @@ namespace MongoRedi.Tests
 
             _userRepository.InsertMany(users);
 
-            var harry = _userRepository.Search(x => x.FirstName == "Harry" && x.LastName == "Potter").FirstOrDefault();
+            var hermione = _userRepository.Search(x => x.FirstName == "Hermione" && x.LastName == "Granger").FirstOrDefault();
             var lord = _userRepository.Search(x => x.FirstName == "Lord" && x.LastName == "Voldemort").FirstOrDefault();
             var albus = _userRepository.Search(x => x.FirstName == "Albus" && x.LastName == "Dumbledore").FirstOrDefault();
 
-            Assert.IsTrue(harry.Age == 11);
+            Assert.IsTrue(hermione.Age == 11);
             Assert.IsTrue(lord.Age == 55);
             Assert.IsTrue(albus.Age == 150);
+
+            _userRepository.GetById(hermione.Id);
+            _userRepository.GetById(lord.Id);
+            _userRepository.GetById(albus.Id);
         }
 
         [TestMethod]

@@ -4,7 +4,8 @@ using MongoRedi.Models;
 namespace MongoRedi.Tests.MongoRediModels
 {
     [CollectionName("users")]
-    [Cache]
+    [CacheCollection]
+    [CacheDocument]
     public class User : BaseCollection
     {
         public string FirstName { get; set; }

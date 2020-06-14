@@ -3,7 +3,7 @@
 namespace MongoRedi.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class CollectionNameAttribute : Attribute
+    public sealed class CollectionNameAttribute : Attribute
     {
         public string CollectionName { get; private set; }
 

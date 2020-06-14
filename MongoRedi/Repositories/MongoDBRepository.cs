@@ -10,7 +10,6 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace MongoRedi.Repositories
 {
@@ -20,7 +19,8 @@ namespace MongoRedi.Repositories
         private readonly IMongoDatabase _mongoDatabase;
         private readonly IMongoCollection<TCollection> _collection;
         private readonly IRedisRepository _redisRepository;
-        private readonly bool _cache;
+        private readonly bool _cacheCollection;
+        private readonly bool _cacheDocument;
 
         private readonly string _mongoDBConnectionString;
         private readonly string _mongoDBDatabase;
@@ -66,9 +66,10 @@ namespace MongoRedi.Repositories
                 (typeof(TCollection).GetCustomAttributes(typeof(CollectionNameAttribute), true)[0] as CollectionNameAttribute).CollectionName;
             _collection = _mongoDatabase.GetCollection<TCollection>(collectionName);
 
-            _cache = typeof(TCollection).IsDefined(typeof(CacheAttribute), false) && _enableCache;
+            _cacheCollection = typeof(TCollection).IsDefined(typeof(CacheCollectionAttribute), false) && _enableCache;
+            _cacheDocument = typeof(TCollection).IsDefined(typeof(CacheDocumentAttribute), false) && _enableCache;
 
-            if (_cache)
+            if (_cacheCollection || _cacheDocument)
             {
                 _redisRepository = new RedisRepository(_redisConnectionString, _redisDatabase);
             }
@@ -76,7 +77,7 @@ namespace MongoRedi.Repositories
 
         public IEnumerable<TCollection> GetAll()
         {
-            if (_cache)
+            if (_cacheCollection)
             {
                 try
                 {
@@ -101,7 +102,7 @@ namespace MongoRedi.Repositories
 
         public IEnumerable<TCollection> Search(Expression<Func<TCollection, bool>> predicate)
         {
-            if (_cache)
+            if (_cacheCollection)
             {
                 try
                 {
@@ -129,7 +130,7 @@ namespace MongoRedi.Repositories
 
         public int Count(Expression<Func<TCollection, bool>> predicate)
         {
-            if (_cache)
+            if (_cacheCollection)
             {
                 try
                 {
@@ -151,7 +152,28 @@ namespace MongoRedi.Repositories
 
         public TCollection GetById(ObjectId id)
         {
-            if (_cache)
+            if (_cacheDocument)
+            {
+                string key = $"{typeof(TCollection).Name}_{id}";
+
+                if (_redisRepository.Exists(key))
+                {
+                    return _redisRepository.Get<TCollection>(key);
+                }
+                else
+                {
+                    var data = _collection.Find(x => x.Id == id).FirstOrDefault();
+
+                    if (data != null)
+                    {
+                        _redisRepository.Set(key, data);
+                    }
+                    
+                    return data;
+                }
+            }
+
+            if (_cacheCollection)
             {
                 try
                 {
@@ -185,7 +207,7 @@ namespace MongoRedi.Repositories
         {
             _collection.InsertOne(collection);
 
-            if (_cache)
+            if (_cacheCollection)
             {
                 _redisRepository.Delete<TCollection>();
             }
@@ -197,7 +219,7 @@ namespace MongoRedi.Repositories
         {
             _collection.InsertMany(collections);
 
-            if (_cache)
+            if (_cacheCollection)
             {
                 _redisRepository.Delete<TCollection>();
             }
@@ -207,7 +229,14 @@ namespace MongoRedi.Repositories
         {
             _collection.ReplaceOne(x => x.Id == id, collection);
 
-            if (_cache)
+            if (_cacheDocument)
+            {
+                string key = $"{typeof(TCollection).Name}_{id}";
+
+                _redisRepository.Delete(key);
+            }
+
+            if (_cacheCollection)
             {
                 _redisRepository.Delete<TCollection>();
             }
@@ -217,7 +246,14 @@ namespace MongoRedi.Repositories
         {
             _collection.DeleteOne(x => x.Id == id);
 
-            if (_cache)
+            if (_cacheDocument)
+            {
+                string key = $"{typeof(TCollection).Name}_{id}";
+
+                _redisRepository.Delete(key);
+            }
+
+            if (_cacheCollection)
             {
                 _redisRepository.Delete<TCollection>();
             }
