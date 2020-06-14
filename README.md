@@ -49,8 +49,10 @@ public class Student : BaseCollection
 
 * CollectionName **(REQUIRED)**
   * This attribute sets the name of the collection as it will be stored in MongoDB
-* Cache (OPTIONAL)
+* CacheCollection (OPTIONAL)
   * This attribute determines if this collection will be stored in Redis
+* CacheDocument (OPTIONAL)
+  * This attribute determines if individual documents will be stored in Redis
 * BaseCollection **(REQUIRED)**
   * This base class contains the \_id of each document, which is required for MondoDB
 
@@ -109,6 +111,7 @@ Efficently counts the documents in a collection using a LINQ expression without 
 Returns a single document based on \_id of the document.  Accepts ObjectId or string as an input.
 
 * If Redis is enabled, the document is retrieved from Redis, otherwise **GetAll** is called and the document is returned
+* CacheDocument will store the individual document in Redis with the following key **[CollectionObjectName]__[ID]**
 
 ### Insert
 A single document is added to the collection
@@ -124,11 +127,13 @@ Multiple documents are added to the collection
 Updates a single document
 
 * If Redis is enabled, after the update the Redis data for the collection is removed 
+* CacheDocument will remove the individual document stored in Redis
 
 ### Delete
 Deletes a single document based on \_id of the document.  Accepts ObjectId or string as an input.
 
 * If Redis is enabled, after the deletion the Redis data for the collection is removed 
+* CacheDocument will remove the individual document stored in Redis
 
 ## Summary
 I created this project after looking over the internet for best practices when working with MongoDB and Redis in the .NET technology stack.  I've used this code to integrate MongoDB Atlas with AWS Elasticache and it works great!  That being said, I'm sure there is a lot of room for improvement.  If you have any suggestions or feature requests, please let me know.
