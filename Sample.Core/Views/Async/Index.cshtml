@@ -2,7 +2,7 @@
 
 <div class="row">
     <div class="col-md-6">
-        <h2>Students - SYNC</h2>
+        <h2>Students - ASYNC</h2>
     </div>
     <div class="col-md-6">
         <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target=".addStudent">
@@ -12,7 +12,7 @@
         <div class="modal addStudent" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <form asp-controller="Home" asp-action="UpsertStudent" method="post">
+                    <form asp-controller="Async" asp-action="UpsertStudent" method="post">
                         <div class="modal-header">
                             <h5 class="modal-title">Add Student</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -69,7 +69,7 @@
                         <div id="edit@(student.Id)" class="modal" tabindex="-1" role="dialog">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
-                                    <form asp-controller="Home" asp-action="UpsertStudent" method="post">
+                                    <form asp-controller="Async" asp-action="UpsertStudent" method="post">
                                         <div class="modal-header">
                                             <h4 class="modal-title">Edit Student</h4>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -104,7 +104,7 @@
                     <td>@student.LastName</td>
                     <td>@student.Age</td>
                     <td>
-                        <a asp-controller="Home" asp-action="DeleteStudent" asp-route-id="@(student.Id)" class="btn btn-danger confirm">
+                        <a asp-controller="Async" asp-action="DeleteStudent" asp-route-id="@(student.Id)" class="btn btn-danger confirm">
                             Delete
                         </a>
                     </td>

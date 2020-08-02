@@ -5,6 +5,7 @@ using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MongoRedi.Repositories
 {
@@ -39,6 +40,18 @@ namespace MongoRedi.Repositories
             return _db.KeyExists(key);
         }
 
+        public async Task<bool> ExistsAsync<T>()
+        {
+            var key = $"{typeof(T).Name}";
+
+            return await _db.KeyExistsAsync(key);
+        }
+
+        public async Task<bool> ExistsAsync(string key)
+        {
+            return await _db.KeyExistsAsync(key);
+        }
+
         public T Get<T>(Type type)
         {
             var key = $"{type.Name}";
@@ -49,6 +62,18 @@ namespace MongoRedi.Repositories
         public T Get<T>(string key)
         {
             return JsonConvert.DeserializeObject<T>(_db.StringGet(key), _serializerSettings);
+        }
+
+        public async Task<T> GetAsync<T>(Type type)
+        {
+            var key = $"{type.Name}";
+
+            return JsonConvert.DeserializeObject<T>(await _db.StringGetAsync(key), _serializerSettings);
+        }
+
+        public async Task<T> GetAsync<T>(string key)
+        {
+            return JsonConvert.DeserializeObject<T>(await _db.StringGetAsync(key), _serializerSettings);
         }
 
         public void Set<T>(Type type, T value)
@@ -63,6 +88,18 @@ namespace MongoRedi.Repositories
             _db.StringSet(key, JsonConvert.SerializeObject(value));
         }
 
+        public async Task SetAsync<T>(Type type, T value)
+        {
+            var key = $"{type.Name}";
+
+            await _db.StringSetAsync(key, JsonConvert.SerializeObject(value));
+        }
+
+        public async Task SetAsync<T>(string key, T value)
+        {
+            await _db.StringSetAsync(key, JsonConvert.SerializeObject(value));
+        }
+
         public void Delete<T>()
         {
             var key = $"{typeof(T).Name}";
@@ -73,6 +110,18 @@ namespace MongoRedi.Repositories
         public void Delete(string key)
         {
             _db.KeyDelete(key);
+        }
+
+        public async Task DeleteAsync<T>()
+        {
+            var key = $"{typeof(T).Name}";
+
+            await _db.KeyDeleteAsync(key);
+        }
+
+        public async Task DeleteAsync(string key)
+        {
+            await _db.KeyDeleteAsync(key);
         }
 
         public List<string> GetKeys(string pattern)

@@ -7,11 +7,11 @@ using System.Linq;
 namespace MongoRedi.Tests
 {
     [TestClass]
-    public class UnitTest1
+    public class SyncTest
     {
         private static readonly MongoDBRepository<User> _userRepository;
 
-        static UnitTest1()
+        static SyncTest()
         {
             _userRepository = new MongoDBRepository<User>();
         }

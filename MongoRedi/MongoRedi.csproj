@@ -1,16 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <Company>Seattle Software Solutions, LLP</Company>
     <Authors>Kyle Barnes</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Wrapper around MongoDB and Redis to easily execute CRUD operations against MongoDB using POCOs while optionally caching collections / documents in Redis.</Description>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
-    <Version>1.0.7</Version>
+    <Version>2.0.0</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>Adding back support for Obsolute attribute.</PackageReleaseNotes>
+    <PackageReleaseNotes>Async functionality for added for all methods.</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/scubed2010/MongoRedi</PackageProjectUrl>
     <PackageTags>mongodb, redis, mongo, nosql</PackageTags>
     <PackageIcon>mongoRedi.png</PackageIcon>
@@ -19,12 +19,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.5" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.5" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.5" />
-    <PackageReference Include="MongoDB.Driver" Version="2.10.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.6" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.6" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.6" />
+    <PackageReference Include="MongoDB.Driver" Version="2.11.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="StackExchange.Redis" Version="2.1.55" />
+    <PackageReference Include="StackExchange.Redis" Version="2.1.58" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
   </ItemGroup>
 

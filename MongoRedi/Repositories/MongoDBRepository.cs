@@ -10,6 +10,8 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace MongoRedi.Repositories
 {
@@ -66,10 +68,6 @@ namespace MongoRedi.Repositories
                 (typeof(TCollection).GetCustomAttributes(typeof(CollectionNameAttribute), true)[0] as CollectionNameAttribute).CollectionName;
             _collection = _mongoDatabase.GetCollection<TCollection>(collectionName);
 
-            // Support for Obsolete Method
-            // To be removed in Version 2.0
-            _cacheCollection = typeof(TCollection).IsDefined(typeof(CacheAttribute), false) && _enableCache;
-            
             _cacheCollection = typeof(TCollection).IsDefined(typeof(CacheCollectionAttribute), false) && _enableCache;
             _cacheDocument = typeof(TCollection).IsDefined(typeof(CacheDocumentAttribute), false) && _enableCache;
 
@@ -104,6 +102,31 @@ namespace MongoRedi.Repositories
             return _collection.Find(_ => true).ToList();
         }
 
+        public async Task<IEnumerable<TCollection>> GetAllAsync()
+        {
+            if (_cacheCollection)
+            {
+                try
+                {
+                    if (await _redisRepository.ExistsAsync<TCollection>())
+                    {
+                        return await _redisRepository.GetAsync<IEnumerable<TCollection>>(typeof(TCollection));
+                    }
+
+                    var data = await _collection.FindAsync(_ => true).Result.ToListAsync();
+                    await _redisRepository.SetAsync(typeof(TCollection), data);
+
+                    return data;
+                }
+                catch
+                {
+                    return await _collection.FindAsync(_ => true).Result.ToListAsync();
+                }
+            }
+
+            return await _collection.FindAsync(_ => true).Result.ToListAsync();
+        }
+
         public IEnumerable<TCollection> Search(Expression<Func<TCollection, bool>> predicate)
         {
             if (_cacheCollection)
@@ -132,6 +155,34 @@ namespace MongoRedi.Repositories
             return _collection.AsQueryable().Where(predicate.Compile()).ToList();
         }
 
+        public async Task<IEnumerable<TCollection>> SearchAsync(Expression<Func<TCollection, bool>> predicate)
+        {
+            if (_cacheCollection)
+            {
+                try
+                {
+                    if (await _redisRepository.ExistsAsync<TCollection>())
+                    {
+                        var cachedResult = await _redisRepository.GetAsync<IEnumerable<TCollection>>(typeof(TCollection));
+
+                        if (cachedResult != null)
+                        {
+                            return cachedResult.Where(predicate.Compile()).ToList();
+                        }
+                    }
+
+                    GetAll();
+                }
+                catch
+                {
+                    return _collection.AsQueryable().Where(predicate.Compile()).ToList();
+                }
+
+            }
+
+            return _collection.AsQueryable().Where(predicate.Compile()).ToList();
+        }
+
         public int Count(Expression<Func<TCollection, bool>> predicate)
         {
             if (_cacheCollection)
@@ -140,18 +191,42 @@ namespace MongoRedi.Repositories
                 {
                     if (_redisRepository.Exists<TCollection>())
                     {
-                        return _redisRepository.Get<IEnumerable<TCollection>>(typeof(TCollection)).Where(predicate.Compile()).Count();
+                        return _redisRepository.Get<IEnumerable<TCollection>>(typeof(TCollection)).Count(predicate.Compile());
                     }
 
                     GetAll();
                 }
                 catch
                 {
-                    return _collection.AsQueryable().Where(predicate.Compile()).Count();
+                    return _collection.AsQueryable().Count(predicate.Compile());
                 }
             }
 
-            return _collection.AsQueryable().Where(predicate.Compile()).Count();
+            return _collection.AsQueryable().Count(predicate.Compile());
+        }
+
+        public async Task<int> CountAsync(Expression<Func<TCollection, bool>> predicate)
+        {
+            if (_cacheCollection)
+            {
+                try
+                {
+                    if (await _redisRepository.ExistsAsync<TCollection>())
+                    {
+                        var result = await _redisRepository.GetAsync<IEnumerable<TCollection>>(typeof(TCollection));
+
+                        return result.Count(predicate.Compile());
+                    }
+
+                    await GetAllAsync();
+                }
+                catch
+                {
+                    return _collection.AsQueryable().Count(predicate.Compile());
+                }
+            }
+
+            return _collection.AsQueryable().Count(predicate.Compile());
         }
 
         public TCollection GetById(ObjectId id)
@@ -202,9 +277,62 @@ namespace MongoRedi.Repositories
             return _collection.Find(x => x.Id == id).FirstOrDefault();
         }
 
+        public async Task<TCollection> GetByIdAsync(ObjectId id)
+        {
+            if (_cacheDocument)
+            {
+                string key = $"{typeof(TCollection).Name}_{id}";
+
+                if (await _redisRepository.ExistsAsync(key))
+                {
+                    return await _redisRepository.GetAsync<TCollection>(key);
+                }
+                else
+                {
+                    var data = await _collection.FindAsync(x => x.Id == id).Result.FirstOrDefaultAsync();
+
+                    if (data != null)
+                    {
+                        await _redisRepository.SetAsync(key, data);
+                    }
+
+                    return data;
+                }
+            }
+
+            if (_cacheCollection)
+            {
+                try
+                {
+                    if (await _redisRepository.ExistsAsync<TCollection>())
+                    {
+                        var cachedResult = await _redisRepository.GetAsync<IEnumerable<TCollection>>(typeof(TCollection));
+
+                        if (cachedResult != null)
+                        {
+                            return cachedResult.FirstOrDefault(x => x.Id == id);
+                        }
+                    }
+
+                    await GetAllAsync();
+                }
+                catch
+                {
+                    return await _collection.FindAsync(x => x.Id == id).Result.FirstOrDefaultAsync();
+                }
+            }
+
+            return await _collection.FindAsync(x => x.Id == id).Result.FirstOrDefaultAsync();
+        }
+
         public TCollection GetById(string id)
         {
             return GetById(ObjectId.Parse(id));
+        }
+
+        public async Task<TCollection> GetByIdAsync(string id)
+        {
+            return await GetByIdAsync(ObjectId.Parse(id));
         }
 
         public ObjectId Insert(TCollection collection)
@@ -219,6 +347,18 @@ namespace MongoRedi.Repositories
             return collection.Id;
         }
 
+        public async Task<ObjectId> InsertAsync(TCollection collection)
+        {
+            await _collection.InsertOneAsync(collection);
+
+            if (_cacheCollection)
+            {
+                await _redisRepository.DeleteAsync<TCollection>();
+            }
+
+            return collection.Id;
+        }
+
         public void InsertMany(IEnumerable<TCollection> collections)
         {
             _collection.InsertMany(collections);
@@ -226,6 +366,16 @@ namespace MongoRedi.Repositories
             if (_cacheCollection)
             {
                 _redisRepository.Delete<TCollection>();
+            }
+        }
+
+        public async Task InsertManyAsync(IEnumerable<TCollection> collections)
+        {
+            await _collection.InsertManyAsync(collections);
+
+            if (_cacheCollection)
+            {
+                await _redisRepository.DeleteAsync<TCollection>();
             }
         }
 
@@ -246,6 +396,23 @@ namespace MongoRedi.Repositories
             }
         }
 
+        public async Task UpdateAsync(ObjectId id, TCollection collection)
+        {
+            await _collection.ReplaceOneAsync(x => x.Id == id, collection);
+
+            if (_cacheDocument)
+            {
+                string key = $"{typeof(TCollection).Name}_{id}";
+
+                await _redisRepository.DeleteAsync(key);
+            }
+
+            if (_cacheCollection)
+            {
+                await _redisRepository.DeleteAsync<TCollection>();
+            }
+        }
+
         public void Delete(ObjectId id)
         {
             _collection.DeleteOne(x => x.Id == id);
@@ -263,9 +430,31 @@ namespace MongoRedi.Repositories
             }
         }
 
+        public async Task DeleteAsync(ObjectId id)
+        {
+            await _collection.DeleteOneAsync(x => x.Id == id);
+
+            if (_cacheDocument)
+            {
+                string key = $"{typeof(TCollection).Name}_{id}";
+
+                await _redisRepository.DeleteAsync(key);
+            }
+
+            if (_cacheCollection)
+            {
+                await _redisRepository.DeleteAsync<TCollection>();
+            }
+        }
+
         public void Delete(string id)
         {
             Delete(ObjectId.Parse(id));
+        }
+
+        public async Task DeleteAsync(string id)
+        {
+            await DeleteAsync(ObjectId.Parse(id));
         }
     }
 }
