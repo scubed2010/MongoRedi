@@ -9,13 +9,7 @@ namespace MongoRedi.Tests
     [TestClass]
     public class AsyncTest
     {
-        private static readonly MongoDBRepository<User> _userRepository;
-
-        static AsyncTest()
-        {
-            _userRepository = new MongoDBRepository<User>();
-        }
-
+        private static readonly MongoDBRepository<User> _userRepository = new MongoDBRepository<User>();
 
         [TestMethod]
         public void RunAsyncTest()
