@@ -9,48 +9,47 @@ namespace MongoRedi.Tests
     [TestClass]
     public class SyncTest
     {
-        private static readonly MongoDBRepository<User> _userRepository;
+        private static readonly MongoDBRepository<Wizard> _wizardRepository;
 
         static SyncTest()
         {
-            _userRepository = new MongoDBRepository<User>();
+            _wizardRepository = new MongoDBRepository<Wizard>();
         }
 
         [TestMethod]
         public void Insert()
         {
-            var newUser = new User
+            var newUser = new Wizard
             {
                 FirstName = "Harry",
                 LastName = "Potter",
                 Age = 10
             };
 
-            var id = _userRepository.Insert(newUser);
+            var id = _wizardRepository.Insert(newUser);
 
-            var insertedUser = _userRepository.GetById(id);
+            var insertedUser = _wizardRepository.GetById(id);
 
             Assert.IsNotNull(insertedUser);
 
             InsertMany();
         }
 
-        [TestMethod]
         public void InsertMany()
         {
             var users =
-                new List<User> {
-                    new User
+                new List<Wizard> {
+                    new Wizard
                     {
                         FirstName = "Hermione",
                         LastName = "Granger",
                         Age = 11
-                    },  new User
+                    },  new Wizard
                     {
                         FirstName = "Lord",
                         LastName = "Voldemort",
                         Age = 55
-                    }, new User
+                    }, new Wizard
                     {
                         FirstName = "Albus",
                         LastName = "Dumbledore",
@@ -58,61 +57,58 @@ namespace MongoRedi.Tests
                     }
                 };
 
-            _userRepository.InsertMany(users);
+            _wizardRepository.InsertMany(users);
 
-            var hermione = _userRepository.Search(x => x.FirstName == "Hermione" && x.LastName == "Granger").FirstOrDefault();
-            var lord = _userRepository.Search(x => x.FirstName == "Lord" && x.LastName == "Voldemort").FirstOrDefault();
-            var albus = _userRepository.Search(x => x.FirstName == "Albus" && x.LastName == "Dumbledore").FirstOrDefault();
+            var hermione = _wizardRepository.Search(x => x.FirstName == "Hermione" && x.LastName == "Granger").FirstOrDefault();
+            var lord = _wizardRepository.Search(x => x.FirstName == "Lord" && x.LastName == "Voldemort").FirstOrDefault();
+            var albus = _wizardRepository.Search(x => x.FirstName == "Albus" && x.LastName == "Dumbledore").FirstOrDefault();
 
             Assert.IsTrue(hermione.Age == 11);
             Assert.IsTrue(lord.Age == 55);
             Assert.IsTrue(albus.Age == 150);
 
-            _userRepository.GetById(hermione.Id);
-            _userRepository.GetById(lord.Id);
-            _userRepository.GetById(albus.Id);
+            _wizardRepository.GetById(hermione.Id);
+            _wizardRepository.GetById(lord.Id);
+            _wizardRepository.GetById(albus.Id);
 
             Count();
         }
 
-        [TestMethod]
         public void Count()
         {
-            var count = _userRepository.Count(x => x.Age == 11);
+            var count = _wizardRepository.Count(x => x.Age == 11);
 
             Assert.IsTrue(count == 1);
 
             Update();
         }
 
-        [TestMethod]
         public void Update()
         {
-            var user = _userRepository.GetAll().FirstOrDefault();
+            var user = _wizardRepository.GetAll().FirstOrDefault();
 
             var initalAge = user.Age;
 
             user.Age += 1;
 
-            _userRepository.Update(user.Id, user);
+            _wizardRepository.Update(user.Id, user);
 
-            var updatedUser = _userRepository.GetById(user.Id);
+            var updatedUser = _wizardRepository.GetById(user.Id);
 
             Assert.IsTrue(initalAge != updatedUser.Age);
 
             Delete();
         }
 
-        [TestMethod]
         public void Delete()
         {
-            var users = _userRepository.GetAll();
+            var users = _wizardRepository.GetAll();
 
             foreach (var user in users)
             {
-                _userRepository.Delete(user.Id);
+                _wizardRepository.Delete(user.Id);
 
-                var deletedUser = _userRepository.GetById(user.Id);
+                var deletedUser = _wizardRepository.GetById(user.Id);
 
                 Assert.IsNull(deletedUser);
             }

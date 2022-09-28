@@ -4,7 +4,7 @@ using MongoRedi.Models;
 namespace Sample.Core.Models
 {
     [CollectionName("students")]
-    [Cache]
+    [CacheCollection]
     public class Student : BaseCollection
     {
         public string FirstName { get; set; }
